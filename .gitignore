@@ -1,0 +1,91 @@
+# -------------------------
+# 🧱 Node & npm
+# -------------------------
+node_modules/
+front-end/node_modules/
+back-end/node_modules/
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -------------------------
+# ⚙️ Environment Variables
+# -------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+front-end/.env
+back-end/.env
+
+# -------------------------
+# 🧰 Build Outputs
+# -------------------------
+# React / Vite build
+front-end/build/
+front-end/dist/
+
+# Node / Express build (if using TypeScript or transpilation)
+back-end/dist/
+back-end/build/
+
+# Next.js (if ever used)
+.next/
+out/
+
+# -------------------------
+# 🧪 Test / Coverage
+# -------------------------
+coverage/
+*.lcov
+
+# -------------------------
+# 🧠 Cache
+# -------------------------
+.cache/
+front-end/.cache/
+back-end/.cache/
+.tmp/
+temp/
+
+# -------------------------
+# 💾 Local Files & Uploads
+# -------------------------
+uploads/
+public/uploads/
+back-end/uploads/
+
+# -------------------------
+# 🧩 IDE / OS Files
+# -------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# -------------------------
+# 🔐 Sensitive / Misc
+# -------------------------
+*.pem
+*.key
+*.crt
+*.pfx
+*.tgz
+*.tar.gz
+
+# -------------------------
+# 🔒 Lock Files
+# (keep only one if you prefer consistency)
+# -------------------------
+# package-lock.json   # <— keep this if you want reproducible builds
+# yarn.lock
+# pnpm-lock.yaml
+
