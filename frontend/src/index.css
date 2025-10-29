@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small theme adjustments: avoid @apply here to prevent @apply-related build issues */
+body {
+	font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	min-height: 100vh;
+	background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 12%),
+							radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.04), transparent 12%),
+							linear-gradient(120deg, #f0f9ff 0%, #fff7ed 50%, #fef3ff 100%);
+	color: #0f172a;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Animated decorative blob */
+.gradient-blob {
+	position: absolute;
+	inset: -20% auto auto -10%;
+	width: 520px;
+	height: 520px;
+	background: linear-gradient(135deg,#7c3aed,#06b6d4,#f97316);
+	filter: blur(60px) saturate(120%);
+	opacity: 0.12;
+	border-radius: 40%;
+	transform: rotate(20deg);
+	animation: blobMove 10s ease-in-out infinite;
+	z-index: 0;
+}
+
+@keyframes blobMove {
+	0% { transform: translateY(0) scale(1) rotate(20deg) }
+	50% { transform: translateY(-18px) scale(1.04) rotate(10deg) }
+	100% { transform: translateY(0) scale(1) rotate(20deg) }
+}
+
+/* Make the app container breathe a bit */
+main { padding-top: 1.5rem; padding-bottom: 2rem; position: relative; z-index: 10 }
+

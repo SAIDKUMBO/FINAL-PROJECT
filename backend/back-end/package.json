@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "plp-final-project": "file:.."
+  }
+}
