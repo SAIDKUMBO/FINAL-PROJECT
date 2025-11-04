@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.11.0",
     "axios": "^1.12.2",
+  "@react-google-maps/api": "^2.20.1",
     "final-project": "file:..",
     "framer-motion": "^12.23.24",
     "leaflet": "^1.9.4",

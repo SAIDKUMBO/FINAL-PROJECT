@@ -1,6 +1,39 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Home() {
+  const navigate = useNavigate()
+
+  function ActionButtons() {
+    // Use Link with a navigate-on-click handler that preserves modifier/new-tab behavior.
+    const handleNavigate = (e, path) => {
+      // If user used modifier keys or middle-click, let the browser handle it (open in new tab/window)
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return
+      e.preventDefault()
+      navigate(path)
+    }
+
+    return (
+      <>
+        <Link
+          to="/report"
+          className="btn btn-primary"
+          onClick={(e) => handleNavigate(e, '/report')}
+        >
+          📝 Report an Incident
+        </Link>
+
+        <Link
+          to="/map"
+          className="btn btn-accent"
+          onClick={(e) => handleNavigate(e, '/map')}
+        >
+          🗺️ View Map
+        </Link>
+
+        <Link to="/admin" className="btn btn-ghost">⚙️ Admin Dashboard</Link>
+      </>
+    )
+  }
   return (
     <main className="max-w-5xl mx-auto p-6">
       <section className="hero">
@@ -9,9 +42,8 @@ export default function Home() {
         <p className="subtitle mb-4">A privacy-first prototype for reporting and responding to gender-based violence (GBV). Sign in to save reports under your account, or submit anonymously to protect your identity.</p>
 
         <div className="flex flex-wrap gap-3 items-center">
-          <Link to="/report" className="btn btn-primary">📝 Report an Incident</Link>
-          <Link to="/map" className="btn btn-accent">🗺️ View Map</Link>
-          <Link to="/admin" className="btn btn-ghost">⚙️ Admin Dashboard</Link>
+          {/* Use navigate to ensure clicks work even if Link handling is impacted by overlays */}
+          <ActionButtons />
         </div>
 
         <div className="badges">

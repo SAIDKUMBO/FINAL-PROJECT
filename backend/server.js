@@ -14,6 +14,10 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
+// Serve uploaded files statically
+const path = require('path')
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 // API routes
 app.use('/api', routes);
 

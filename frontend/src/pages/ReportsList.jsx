@@ -60,6 +60,21 @@ export default function ReportsList() {
                 </h3>
                 <p className="mt-2 text-gray-700 dark:text-gray-300">{r.description}</p>
                 {r.location && <p className="mt-2 text-sm text-gray-500">Location: {r.location}</p>}
+                {r.images && r.images.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">Images:</p>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {r.images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={`${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}${image}`}
+                          alt={`Report image ${index + 1}`}
+                          className="w-20 h-20 object-cover rounded border"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="text-right">

@@ -9,6 +9,7 @@ const ReportSchema = new mongoose.Schema({
   anonymous: { type: Boolean, default: true },
   reporterId: { type: String, default: null },
   tags: { type: [String], default: [] },
+  images: { type: [String], default: [] },
   status: { type: String, enum: ['open', 'in_progress', 'resolved'], default: 'open' },
   resolvedAt: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now },
