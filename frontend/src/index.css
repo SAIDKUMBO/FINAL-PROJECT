@@ -6,16 +6,10 @@
 body {
 	font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 	min-height: 100vh;
-	background:
-		linear-gradient(120deg, rgba(14,11,28,0.65) 0%, rgba(30,18,39,0.55) 55%, rgba(63,33,46,0.6) 100%),
-		radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.08), transparent 18%),
-		radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.06), transparent 18%),
-		url('/end-gbv.jpg');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	color: #fdfcff;
+	background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 12%),
+				radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.04), transparent 12%),
+				linear-gradient(120deg, #f0f9ff 0%, #fff7ed 50%, #fef3ff 100%);
+	color: #0f172a;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
