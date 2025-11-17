@@ -2,19 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--page-bg: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 12%),
+		radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.04), transparent 12%),
+		linear-gradient(120deg, #f0f9ff 0%, #fff7ed 50%, #fef3ff 100%);
+	--page-text: #0f172a;
+	--header-bg: linear-gradient(90deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
+	--header-shadow: 0 8px 30px rgba(15,23,42,0.06);
+	--card-bg: rgba(255,255,255,0.92);
+	--card-shadow: 0 6px 20px rgba(15,23,42,0.06);
+	--card-hover-shadow: 0 22px 60px rgba(15,23,42,0.09);
+	--input-bg: rgba(255,255,255,0.9);
+	--input-border: rgba(15,23,42,0.06);
+	--ghost-color: #374151;
+	--ghost-border: rgba(55,65,81,0.08);
+	--focus-shadow: 0 18px 40px rgba(99,102,241,0.08);
+	--main-panel-shadow: 0 6px 30px rgba(124,58,237,0.12);
+}
+
+[data-theme='dark'] {
+	--page-bg: linear-gradient(120deg, #0f172a 0%, #020617 55%, #0f172a 100%);
+	--page-text: #f8fafc;
+	--header-bg: rgba(15,23,42,0.85);
+	--header-shadow: 0 12px 35px rgba(2,6,23,0.65);
+	--card-bg: rgba(15,23,42,0.85);
+	--card-shadow: 0 10px 30px rgba(2,6,23,0.45);
+	--card-hover-shadow: 0 16px 45px rgba(2,6,23,0.5);
+	--input-bg: rgba(15,23,42,0.7);
+	--input-border: rgba(148,163,184,0.45);
+	--ghost-color: #e2e8f0;
+	--ghost-border: rgba(148,163,184,0.45);
+	--focus-shadow: 0 18px 40px rgba(99,102,241,0.25);
+	--main-panel-shadow: 0 8px 35px rgba(0,0,0,0.4);
+}
+
 /* Small theme adjustments: avoid @apply here to prevent @apply-related build issues */
 body {
 	font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 	min-height: 100vh;
-	background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 12%),
-				radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.04), transparent 12%),
-				linear-gradient(120deg, #f0f9ff 0%, #fff7ed 50%, #fef3ff 100%);
-	color: #0f172a;
+	background: var(--page-bg);
+	color: var(--page-text);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Animated decorative blob */
 .gradient-blob {
 	position: absolute;
 	inset: -20% auto auto -10%;

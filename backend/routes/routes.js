@@ -1,26 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Report = require('../models/Report');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-
-// Multer storage
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, uploadsDir);
-	},
-	filename: function (req, file, cb) {
-		const ext = path.extname(file.originalname);
-		const base = path.basename(file.originalname, ext).replace(/[^a-z0-9-_]/gi, '_');
-		cb(null, `${Date.now()}-${base}${ext}`);
-	}
-});
-const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB limit per file
 
 // Simple Clerk-aware middleware placeholder
 // NOTE: For production, replace this with real Clerk token/session verification using
@@ -43,18 +23,12 @@ const verifyClerk = (req, res, next) => {
 };
 
 // Create a report (protected)
-// Accept multipart/form-data with optional images[] files
-router.post('/reports', verifyClerk, upload.array('images', 6), async (req, res) => {
+router.post('/reports', verifyClerk, async (req, res) => {
 	try {
-		// When using multer, form fields are in req.body and files in req.files
-		const { title, description, location, anonymous, tags, latitude, longitude } = req.body;
+		const { title, description, location, anonymous, tags, latitude, longitude, images } = req.body;
 		const reporterId = req.user && req.user.id ? req.user.id : null;
 
-		const images = (req.files || []).map(f => `/uploads/${f.filename}`);
-
-		const parsedTags = typeof tags === 'string' && tags.length ? tags.split(',').map(t => t.trim()) : (Array.isArray(tags) ? tags : []);
-
-		const report = new Report({ title, description, location, anonymous, reporterId, tags: parsedTags, latitude, longitude, images });
+		const report = new Report({ title, description, location, anonymous, reporterId, tags, latitude, longitude, images });
 		await report.save();
 		res.status(201).json(report);
 	} catch (err) {
@@ -70,6 +44,33 @@ router.get('/reports', verifyClerk, async (req, res) => {
 		if (req.query.status) filter.status = req.query.status;
 		const reports = await Report.find(filter).sort({ createdAt: -1 }).limit(1000);
 		res.json(reports);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Server error' });
+	}
+});
+
+router.get('/reports/summary', verifyClerk, async (req, res) => {
+	try {
+		const total = await Report.countDocuments();
+		const byStatus = await Report.aggregate([
+			{ $group: { _id: '$status', count: { $sum: 1 } } },
+		]);
+
+		const summary = {
+			total,
+			open: 0,
+			in_progress: 0,
+			resolved: 0,
+		};
+
+		byStatus.forEach((entry) => {
+			if (entry._id && typeof summary[entry._id] === 'number') {
+				summary[entry._id] = entry.count;
+			}
+		});
+
+		res.json(summary);
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: 'Server error' });

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth, useUser } from '@clerk/clerk-react'
 
@@ -10,47 +10,73 @@ export default function ReportForm() {
   const [message, setMessage] = useState(null)
   const [latitude, setLatitude] = useState(null)
   const [longitude, setLongitude] = useState(null)
-  const [images, setImages] = useState([])
+  const [imagePreviews, setImagePreviews] = useState([])
 
   const { getToken } = useAuth();
   const { user } = useUser();
 
   const submit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const token = await getToken({ template: 'integration' }).catch(() => null);
+      const token = await getToken({ template: 'integration' }).catch(() => null)
 
-      const headers = {};
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      if (user && user.id) headers['x-user-id'] = user.id;
+      const headers = {}
+      if (token) headers['Authorization'] = `Bearer ${token}`
+      if (user && user.id) headers['x-user-id'] = user.id
 
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('location', location);
-      formData.append('anonymous', anonymous);
-      if (latitude != null) formData.append('latitude', latitude);
-      if (longitude != null) formData.append('longitude', longitude);
-      images.forEach((image, index) => {
-        formData.append('images', image);
-      });
+      const body = { title, description, location, anonymous }
+      if (latitude != null) body.latitude = latitude
+      if (longitude != null) body.longitude = longitude
+      if (imagePreviews.length > 0) {
+        body.images = imagePreviews.map((preview) => ({
+          name: preview.name,
+          data: preview.data,
+        }))
+      }
 
       await axios.post(
         `${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}/api/reports`,
-        formData,
-        { headers: { ...headers, 'Content-Type': 'multipart/form-data' } }
-      );
-      setMessage('Report submitted — thank you.');
-      setTitle('');
-      setDescription('');
-      setLocation('');
-      setImages([]);
+        body,
+        { headers }
+      )
+      setMessage('Report submitted — thank you.')
+      setTitle('')
+      setDescription('')
+      setLocation('')
+      imagePreviews.forEach((preview) => URL.revokeObjectURL(preview.url))
+      setImagePreviews([])
     } catch (err) {
-      console.error(err);
-      setMessage('Error submitting report');
+      console.error(err)
+      setMessage('Error submitting report')
     }
   }
 
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((preview) => URL.revokeObjectURL(preview.url))
+    }
+  }, [imagePreviews])
+
+  const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+
+  const handleImageChange = async (event) => {
+    const files = Array.from(event.target.files || []).slice(0, 4)
+    const previews = await Promise.all(files.map(async (file) => ({
+      name: file.name,
+      url: URL.createObjectURL(file),
+      data: await toBase64(file),
+    })))
+
+    setImagePreviews((prev) => {
+      prev.forEach((preview) => URL.revokeObjectURL(preview.url))
+      return previews
+    })
+  }
   return (
     <main className="max-w-3xl mx-auto p-6">
       <div className="bg-white rounded-xl shadow p-6">
@@ -124,45 +150,27 @@ export default function ReportForm() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">Images (optional)</label>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => {
-                const files = Array.from(e.target.files);
-                setImages(prev => [...prev, ...files]);
-              }}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
-            {images.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Preview ${index + 1}`}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setImages(prev => prev.filter((_, i) => i !== index))}
-                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           <div className="flex items-center gap-3">
             <label className="inline-flex items-center">
               <input type="checkbox" checked={anonymous} onChange={(e) => setAnonymous(e.target.checked)} className="mr-2" />
               <span className="text-sm">Submit anonymously</span>
             </label>
+          </div>
+
+          <div className="image-uploader">
+            <label className="block text-sm font-medium mb-2">Attach photos (optional, max 4)</label>
+            <input type="file" accept="image/*" multiple onChange={handleImageChange} className="image-upload-input" />
+
+            {imagePreviews.length > 0 && (
+              <div className="image-preview-grid">
+                {imagePreviews.map((preview) => (
+                  <figure key={preview.url} className="image-preview-card">
+                    <img src={preview.url} alt={`Preview of ${preview.name}`} loading="lazy" />
+                    <figcaption>{preview.name}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
