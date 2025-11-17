@@ -199,7 +199,10 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mt-4 text-sm text-slate-500 text-center">Supports SDG 5 (Gender Equality) and SDG 16 (Peace, Justice &amp; Strong Institutions).</footer>
+      <footer className="mt-4 text-sm text-slate-500 text-center">
+        <div>Supports SDG 5 (Gender Equality) and SDG 16 (Peace, Justice &amp; Strong Institutions).</div>
+        <div className="mt-1">© {new Date().getFullYear()} Empowered Communities Initiative</div>
+      </footer>
     </main>
   )
 }
