@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
+import heroImage from '../assets/image1.jpg.jpg'
 
 const stepDefinitions = [
   {
@@ -20,21 +21,6 @@ const stepDefinitions = [
     title: 'Visualize impact',
     details: 'The interactive map surfaces clusters, so advocates understand where to dispatch mobile clinics, safe housing, or legal aid.',
     action: 'Explore the map',
-  },
-]
-
-const galleryImages = [
-  {
-    url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=60',
-    caption: 'Trusted local advocates',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=60',
-    caption: 'Map-based insights',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?auto=format&fit=crop&w=800&q=60',
-    caption: 'Secure reporting portals',
   },
 ]
 
@@ -97,21 +83,29 @@ export default function Home() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto p-6 space-y-8">
+    <main className="space-y-8">
       <section className="hero">
-        <div className="gradient-blob" aria-hidden="true"></div>
-        <h1 className="text-3xl lg:text-4xl font-extrabold mb-2">GBV <span className="gradient-title">Reporting & Response</span></h1>
-        <p className="subtitle mb-5">A privacy-first toolkit enabling survivors, allies, and responders to document events clearly, share essential context with trusted admins, and visualize emerging risks on a dynamic map.</p>
+        <div className="hero-content">
+          <div className="gradient-blob" aria-hidden="true"></div>
+          <p className="eyebrow">Secure, survivor-centered data</p>
+          <h1 className="text-3xl lg:text-4xl font-extrabold">GBV <span className="gradient-title">Reporting & Response</span></h1>
+          <p className="subtitle mb-5">A privacy-first toolkit enabling survivors, allies, and responders to document events clearly, share essential context with trusted admins, and visualize emerging risks on a dynamic map.</p>
 
-        <div className="flex flex-wrap gap-3 items-center">
-          <ActionButtons />
+          <div className="flex flex-wrap gap-3 items-center">
+            <ActionButtons />
+          </div>
+
+          <div className="badges">
+            <span className="badge purple">Privacy-first</span>
+            <span className="badge cyan">Geo-aware</span>
+            <span className="badge soft">Supports SDG 5 &amp; 16</span>
+          </div>
         </div>
 
-        <div className="badges">
-          <span className="badge purple">Privacy-first</span>
-          <span className="badge cyan">Geo-aware</span>
-          <span className="badge soft">Supports SDG 5 &amp; 16</span>
-        </div>
+        <figure className="hero-visual">
+          <img src={heroImage} alt="Illustration celebrating solidarity against gender-based violence" />
+          <figcaption>Trusted partners validate every response, mirroring humanitarian field teams.</figcaption>
+        </figure>
       </section>
 
       <section className="live-stats">
@@ -140,7 +134,29 @@ export default function Home() {
         )}
       </section>
 
-      <section className="feature-explorer bg-white rounded-2xl shadow-xl p-6">
+      <section className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-lg">
+        <div>
+          <p className="text-sm uppercase tracking-[0.5em] text-slate-400 mb-2">What GBV really is</p>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Understanding the harm it causes</h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          <article className="space-y-2">
+            <h3 className="text-lg font-semibold">It targets identity</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Gender-based violence hinges on power imbalances and biases about gender or sexual identity, shaping how a survivor is perceived, shamed, or silenced.</p>
+          </article>
+          <article className="space-y-2">
+            <h3 className="text-lg font-semibold">It shapes daily life</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Victims may lose transportation, housing, jobs, or access to medical care because abusers control finances, movement, or internet connectivity.</p>
+          </article>
+          <article className="space-y-2">
+            <h3 className="text-lg font-semibold">It leaves invisible wounds</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Survivors experience trauma, stigma, and isolation even after immediate threats end, requiring trusted people and systems to rebuild security.</p>
+          </article>
+        </div>
+        <p className="text-sm text-slate-500">Our platform helps document incidents safely so advocates can understand the full impact—physical, psychological, and structural—and deliver informed, timely support.</p>
+      </section>
+
+      <section className="feature-explorer">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="feature-grid">
             {stepDefinitions.map((step) => (
@@ -166,36 +182,6 @@ export default function Home() {
               <Link to="/map" className="btn btn-accent">See insights</Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="site-purpose grid gap-6 lg:grid-cols-[1.3fr_0.9fr] bg-slate-900 text-white rounded-2xl overflow-hidden">
-        <div className="p-6 space-y-4">
-          <h2 className="text-2xl font-bold">What this site does</h2>
-          <p className="text-slate-200">It collects well-structured incident reports, optionally captures safe locations, and surfaces them through admin dashboards so advocates can prioritize urgent responses.</p>
-          <p className="text-slate-200">Every entry can be marked resolved, flagged for follow-up, and visualized on the shared map to spot emerging hotspots before they escalate.</p>
-          <div className="focus-tabs">
-            <button type="button" className="focus-pill">Track trends</button>
-            <button type="button" className="focus-pill">Protect privacy</button>
-            <button type="button" className="focus-pill">Coordinate care</button>
-          </div>
-        </div>
-        <figure className="purpose-visual">
-          <img src="https://images.unsplash.com/photo-1573166364524-6c8d5f1d0b0a?auto=format&fit=crop&w=900&q=60" alt="Community support network" />
-          <figcaption>Stories from responders and survivors inform every feature.</figcaption>
-        </figure>
-      </section>
-
-      <section className="support-gallery">
-        <h2 className="text-2xl font-semibold mb-3">Team &amp; Community</h2>
-        <p className="text-slate-600 mb-4">Local health workers, lawyers, and volunteer advocates rely on the insights this platform unlocks. Here are a few faces behind the response.</p>
-        <div className="gallery-grid">
-          {galleryImages.map((item) => (
-            <figure key={item.url} className="support-card">
-              <img src={item.url} alt={item.caption} />
-              <figcaption>{item.caption}</figcaption>
-            </figure>
-          ))}
         </div>
       </section>
 

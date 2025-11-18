@@ -39,7 +39,7 @@ export default function ReportForm() {
         body,
         { headers }
       )
-      setMessage('Report submitted — thank you.')
+      setMessage('Report submitted succesfully— thank you😊👌.')
       setTitle('')
       setDescription('')
       setLocation('')
@@ -78,12 +78,12 @@ export default function ReportForm() {
     })
   }
   return (
-    <main className="max-w-3xl mx-auto p-6">
-      <div className="bg-white rounded-xl shadow p-6">
+    <main className="max-w-4xl mx-auto p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-8 report-card">
         <h2 className="text-2xl font-bold mb-2">Report an Incident</h2>
         <p className="text-sm text-slate-600 mb-4">You can submit anonymously. Allow location to attach approximate coordinates (optional).</p>
 
-        <form onSubmit={submit} className="space-y-4">
+        <form onSubmit={submit} className="report-form space-y-6">
           <div className="flex flex-col items-center">
             <label className="block text-lg font-semibold mb-4">Title of the incident</label>
 
@@ -97,8 +97,7 @@ export default function ReportForm() {
                     required
                     aria-label="Incident title"
                     placeholder="Short title (e.g., Harassment on bus)"
-                    style={{ paddingLeft: 72 }}
-                    className="block mx-auto w-full h-28 text-center text-3xl p-6 rounded-3xl bg-gradient-to-r from-white to-indigo-50 border border-indigo-100 shadow-2xl placeholder:italic placeholder:text-2xl placeholder:text-slate-400 focus:outline-none focus:border-indigo-300 focus:shadow-2xl transition-all duration-200"
+                    className="report-title-input"
                   />
                 </div>
               </div>
@@ -109,7 +108,7 @@ export default function ReportForm() {
 
           <div>
             <label className="block text-sm font-medium">Description</label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required rows={8} className="mt-1 block w-full rounded-xl border border-transparent bg-white/80 shadow-inner-lg p-4 focus:ring-2 focus:ring-primary/40 placeholder:text-black" placeholder="Describe what happened, approximate time and any details that help responders" />
+            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required rows={10} className="report-textarea" placeholder="Describe what happened, approximate time and any details that help responders" />
           </div>
 
           <div className="flex flex-col items-center">
@@ -122,9 +121,8 @@ export default function ReportForm() {
                   <input
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="interactive-glow block mx-auto w-full h-16 text-center text-xl p-4 rounded-2xl bg-white border border-gray-200 shadow-md placeholder:italic placeholder:text-lg placeholder:text-slate-400 focus:outline-none transition-all duration-200"
+                    className="report-location-input"
                     placeholder="Location name or landmark (e.g., Central Station)"
-                    style={{ paddingLeft: 56, paddingRight: 140 }}
                   />
 
                   <button
@@ -141,7 +139,7 @@ export default function ReportForm() {
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 btn btn-accent px-4 py-3 text-sm rounded-xl shadow"
                   >
-                    � Use my location
+                    � Use my location📍
                   </button>
                 </div>
 
@@ -173,12 +171,12 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div>
+          <div className="text-center">
             <button type="submit" className="btn btn-primary">✅ Submit report</button>
           </div>
         </form>
 
-        {message && <p className="mt-4 text-sm text-slate-700">{message}</p>}
+        {message && <p className="mt-4 text-sm text-slate-700 dark:text-slate-200 report-message">{message}</p>}
       </div>
     </main>
   )

@@ -53,7 +53,7 @@ export default function MapView() {
   if (apiKey && loadError) return <p className="text-red-600">Map failed to load (check API key)</p>
 
   return (
-    <main className="max-w-5xl mx-auto p-6">
+    <main className="w-full max-w-[1200px] mx-auto p-6">
       <header className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold text-gray-800">Report Map</h2>
         <div className="flex items-center gap-4">
@@ -72,7 +72,7 @@ export default function MapView() {
 
       {loading && <p className="text-gray-600">Loading map…</p>}
 
-      <div className="h-[70vh] rounded-lg overflow-hidden shadow-sm border border-gray-200 bg-gray-50">
+      <div className="map-panel h-[70vh] rounded-lg overflow-hidden shadow-sm border border-gray-200 bg-gray-50">
         {apiKey ? (
           !isLoaded ? (
             <div className="w-full h-full flex items-center justify-center">Loading map…</div>
@@ -138,7 +138,7 @@ export default function MapView() {
 
       {loading && <p className="text-gray-600">Loading map…</p>}
 
-      <div className="h-[70vh] rounded-lg overflow-hidden shadow-sm border border-gray-200">
+      <div className="map-panel h-[70vh] rounded-lg overflow-hidden shadow-sm border border-gray-200">
         <MapContainer center={[center.lat, center.lng]} zoom={coords.length ? 13 : 2} style={{ height: '100%', width: '100%' }}>
           <TileLayer attribution='&copy; OpenStreetMap contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {coords.map(r => (
