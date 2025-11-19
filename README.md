@@ -1,5 +1,7 @@
 # GBV Reporting & Support — MERN Prototype (Clerk Authentication)
 
+🔗 **Live deployment:** [https://unityagainstgbv.vercel.app/](https://unityagainstgbv.vercel.app/)
+
 This repository is a MERN-stack prototype that lets communities report gender-based violence safely and gives administrators a Clerk-backed dashboard.
 
 ## Key Highlights
@@ -34,12 +36,20 @@ PORT=5000
 # Optional: CLERK_API_KEY=your_clerk_api_key_here (for real server-side verification)
 ```
 
+Once you’re ready to point at Atlas, swap in your connection string (replace `<db_password>` with the secured password for `kumbosaid22_db_user`). Example:
+
+```
+MONGO_URI=mongodb+srv://kumbosaid22_db_user:<db_password>@cluster0.5wpki3d.mongodb.net/gbv_db?retryWrites=true&w=majority
+```
+
 Frontend (`frontend/.env` or `.env.local`):
 
 ```
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
 VITE_API_BASE=http://localhost:5000
 ```
+
+When you build for production (e.g., deploying to Vercel), set `VITE_API_BASE` to `https://final-project-el9x.onrender.com` in the Vercel dashboard so the SPA talks to your live backend. The deployed SPA is also available at https://unityagainstgbv.vercel.app/ for quick verification or testing.
 
 ## Development
 
