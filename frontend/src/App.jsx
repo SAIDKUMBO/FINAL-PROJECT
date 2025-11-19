@@ -15,6 +15,7 @@ import MapView from './pages/MapView'
 import Purpose from './pages/Purpose'
 import Donate from './pages/Donate'
 import Community from './pages/Community'
+import unityLogo from './assets/unity-against-gbv-logo.svg'
 import './App.css'
 
 function AdminSection() {
@@ -105,8 +106,8 @@ function App() {
         <div className="app-container">
           <header className="app-header">
         <div className="header-left" style={{display:'flex',alignItems:'center',gap:'12px'}}>
-          <Link to="/" className="logo" aria-label="GBV app">
-            <span className="logo-mark" aria-hidden></span>
+          <Link to="/" className="logo" aria-label="Unity Against GBV">
+            <img src={unityLogo} alt="Unity Against GBV logo" />
           </Link>
           <nav>
             <NavLink to="/" className={({ isActive }) => `btn btn-ghost nav-link${isActive ? ' active' : ''}`}>Home</NavLink>

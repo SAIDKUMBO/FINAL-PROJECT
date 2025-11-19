@@ -7,7 +7,8 @@
 }
 
 :root {
-	--page-bg: linear-gradient(180deg, #edf4fd 0%, #f8fbff 60%, #fbfdff 100%);
+	--page-bg: radial-gradient(circle at top left, rgba(59,130,246,0.25) 0%, rgba(14,165,233,0.25) 28%, rgba(255,199,132,0.25) 65%, rgba(254,243,199,0.65) 100%),
+		linear-gradient(135deg, #fef6ff 0%, #f0fbff 45%, #fefce8 100%);
 	--page-text: #0a1f3b;
 	--header-bg: #ffffff;
 	--nav-bg: #fdfdff;
@@ -52,13 +53,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
-html,
-	body,
-	#root {
-		width: 100%;
-		min-height: 100%;
-	}
 
 body {
 	overflow-x: hidden;
