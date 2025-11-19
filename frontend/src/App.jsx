@@ -28,10 +28,57 @@ function AdminSection() {
           <div className="w-full max-w-xl rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 shadow-2xl p-8 text-center space-y-4">
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Admin access required</h2>
             <p className="text-sm text-slate-600 dark:text-slate-300">Please sign in before viewing the admin dashboard.</p>
-            <SignInButton mode="modal" className="btn btn-primary">Sign in</SignInButton>
+            <OfflineAwareSignIn className="btn btn-primary">Sign in</OfflineAwareSignIn>
           </div>
         </main>
       </SignedOut>
+    </>
+  )
+}
+
+function OfflineAwareSignIn({ children, className, ...props }) {
+  const [online, setOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true)
+  const [showNotice, setShowNotice] = useState(false)
+
+  useEffect(() => {
+    function onOnline() { setOnline(true); setShowNotice(false) }
+    function onOffline() { setOnline(false) }
+    window.addEventListener('online', onOnline)
+    window.addEventListener('offline', onOffline)
+    return () => {
+      window.removeEventListener('online', onOnline)
+      window.removeEventListener('offline', onOffline)
+    }
+  }, [])
+
+  if (online) {
+    return (
+      <SignInButton {...props} mode={props.mode || 'modal'} className={className}>{children}</SignInButton>
+    )
+  }
+
+  return (
+    <>
+      <button type="button" className={className} onClick={() => setShowNotice(true)}>{children}</button>
+      {showNotice && (
+        <div className="offline-modal" role="dialog" aria-modal="true">
+          <div className="offline-modal-content">
+            <h3 className="text-lg font-semibold">You appear to be offline</h3>
+            <p className="text-sm mt-2">An internet connection is required to sign in. Please reconnect and try again.</p>
+            <div className="mt-4 flex items-center justify-center gap-3">
+              <button className="btn btn-primary" onClick={() => {
+                if (navigator.onLine) {
+                  setShowNotice(false)
+                } else {
+                  // trigger a short re-check
+                  setTimeout(() => { if (navigator.onLine) setShowNotice(false) }, 700)
+                }
+              }}>Retry</button>
+              <button className="btn btn-ghost" onClick={() => setShowNotice(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
@@ -100,7 +147,7 @@ function App() {
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <SignInButton />
+            <OfflineAwareSignIn className="btn btn-ghost">Sign in</OfflineAwareSignIn>
           </SignedOut>
         </div>
           </header>

@@ -11,6 +11,7 @@ export default function ReportForm() {
   const [latitude, setLatitude] = useState(null)
   const [longitude, setLongitude] = useState(null)
   const [imagePreviews, setImagePreviews] = useState([])
+  const [locationLookupState, setLocationLookupState] = useState('idle')
 
   const { getToken } = useAuth();
   const { user } = useUser();
@@ -77,6 +78,34 @@ export default function ReportForm() {
       return previews
     })
   }
+
+  const resolveLocationFromText = async () => {
+    if (!location.trim()) {
+      setMessage('Enter a location name before resolving coordinates')
+      return
+    }
+
+    setLocationLookupState('searching')
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(location)}`
+      )
+      const [match] = await response.json()
+
+      if (match && match.lat && match.lon) {
+        setLatitude(parseFloat(match.lat))
+        setLongitude(parseFloat(match.lon))
+        setMessage(`Location resolved to ${match.display_name}`)
+      } else {
+        setMessage('Could not find coordinates for that location')
+      }
+    } catch (err) {
+      console.error(err)
+      setMessage('Unable to resolve location at this time')
+    } finally {
+      setLocationLookupState('idle')
+    }
+  }
   return (
     <main className="max-w-4xl mx-auto p-6">
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-8 report-card">
@@ -135,12 +164,26 @@ export default function ReportForm() {
                         setMessage('Location captured');
                         // optionally fill location string with coords
                         setLocation(prev => prev || `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`)
-                      }, (err) => setMessage('Unable to get location'))
+                      }, () => setMessage('Unable to get location'))
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 btn btn-accent px-4 py-3 text-sm rounded-xl shadow"
                   >
                     � Use my location📍
                   </button>
+                </div>
+
+                <div className="mt-3 flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={resolveLocationFromText}
+                    disabled={locationLookupState === 'searching' || !location.trim()}
+                    className="btn btn-primary px-4 py-2 text-sm font-semibold rounded-xl"
+                  >
+                    {locationLookupState === 'searching' ? 'Searching…' : 'Resolve typed location'}
+                  </button>
+                  <p className="text-xs text-slate-400 max-w-[32rem]">
+                    Coordinates will update once a match is found, leaving the typed address intact.
+                  </p>
                 </div>
 
                 <div className="mt-3 text-center text-sm text-slate-600">{latitude && longitude ? `Coordinates: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}` : 'Coordinates not captured'}</div>

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="mapGradient" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f5f7fb" />
+      <stop offset="100%" stop-color="#f0f4f8" />
+    </linearGradient>
+    <linearGradient id="pinGradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ff5a5f" />
+      <stop offset="100%" stop-color="#d62828" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="40" ry="40" fill="url(#mapGradient)" />
+  <rect x="40" y="40" width="720" height="520" rx="34" ry="34" fill="#fff" opacity="0.9" />
+  <g stroke="#cfd8dc" stroke-width="8" stroke-linecap="round">
+    <path d="M120 320c60-50 180-70 240-20s220 120 240 90" fill="none" />
+    <path d="M200 120c70 40 150 20 210 60s140 180 90 220" fill="none" />
+    <path d="M100 200c120 20 200-30 280 10s200 110 180 170" fill="none" />
+  </g>
+  <g stroke="#f9a826" stroke-width="6" fill="none">
+    <path d="M160 90c80 30 180-40 240 0s110 110 80 180" />
+    <path d="M100 420c90-40 220-20 280-70s140-100 160-40" />
+  </g>
+  <g fill="#7fb069" opacity="0.7">
+    <circle cx="220" cy="280" r="20" />
+    <circle cx="360" cy="220" r="16" />
+    <circle cx="520" cy="330" r="18" />
+    <circle cx="420" cy="420" r="14" />
+  </g>
+  <g transform="translate(430 160)">
+    <path d="M0 0c0-25 20-45 45-45s45 20 45 45c0 25-45 115-45 115S0 25 0 0z" fill="url(#pinGradient)" stroke="#ff7f7f" stroke-width="4" />
+    <circle cx="45" cy="0" r="16" fill="#fff" />
+    <circle cx="45" cy="0" r="10" fill="#d62828" />
+  </g>
+  <circle cx="475" cy="210" r="10" fill="none" stroke="#ff7f7f" stroke-width="4" opacity="0.6" />
+</svg>

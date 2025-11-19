@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react'
 
@@ -14,7 +14,7 @@ export default function ReportsList() {
   const [modalImage, setModalImage] = useState(null)
   const { getToken } = useAuth()
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     setLoading(true)
     try {
       const token = await getToken({ template: 'integration' }).catch(() => null)
@@ -26,7 +26,7 @@ export default function ReportsList() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getToken])
 
   useEffect(() => {
     if (!authorized) {
@@ -36,7 +36,7 @@ export default function ReportsList() {
     }
 
     fetchReports()
-  }, [authorized])
+  }, [authorized, fetchReports])
 
   const resolveReport = async (id) => {
     try {
