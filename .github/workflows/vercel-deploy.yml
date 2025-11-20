@@ -9,7 +9,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: back-end
@@ -32,7 +32,7 @@ jobs:
         run: npm run lint && npm test
 
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: front-end
