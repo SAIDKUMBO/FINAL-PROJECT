@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "final-project",
   "version": "1.0.0",
   "private": true,
@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "vercel": "^48.10.5"
   }
 }
