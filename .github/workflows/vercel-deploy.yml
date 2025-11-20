@@ -1,30 +1,61 @@
-name: Deploy to Vercel
+name: CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  backend:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: back-end
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Cache backend node_modules
+        uses: actions/cache@v4
         with:
-          node-version: '18'
+          path: ~/.npm
+          key: backend-node-${{ hashFiles('back-end/package-lock.json', 'back-end/package.json') }}
+          restore-keys: |
+            backend-node-
 
-      - name: Install Dependencies
+      - name: Install backend deps
         run: npm install
 
-      - name: Build Project
-        run: npm run build
+      - name: Run backend lint/tests
+        run: npm run lint && npm test
 
-      - name: Deploy to Vercel
-        run: |
-          npm install -g vercel
-          vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front-end
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache frontend node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: frontend-node-${{ hashFiles('front-end/package-lock.json', 'front-end/package.json') }}
+          restore-keys: |
+            frontend-node-
+
+      - name: Install frontend deps
+        run: npm install
+
+      - name: Run frontend lint/tests/build
+        run: npm run lint && npm run test && npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist
