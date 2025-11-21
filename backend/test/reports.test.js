@@ -2,17 +2,20 @@ const request = require('supertest');
 const app = require('../server');
 const mongoose = require('mongoose');
 const Report = require('../models/Report');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 describe('Reports API (basic)', () => {
+  let mongoServer;
   beforeAll(async () => {
-    // Use a separate in-memory DB or test DB in real setup. Here we connect to MONGO_URI if provided.
-    const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/gbv_test_db';
-    await mongoose.connect(uri);
+    mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri(), { dbName: 'testdb' });
   });
 
   afterAll(async () => {
     await Report.deleteMany({});
+    await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
+    if (mongoServer) await mongoServer.stop();
   });
 
   test('POST /api/reports creates a report (requires Authorization header)', async () => {
