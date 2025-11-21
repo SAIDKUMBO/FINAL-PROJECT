@@ -12,11 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-<<<<<<< HEAD
         working-directory: backend
-=======
-        working-directory:  ./backend
->>>>>>> 39f12d73f34bf93cab6dbd0ef288dfbea64ec5c3
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,24 +28,16 @@ jobs:
       - name: Install backend deps
         run: npm install
 
-<<<<<<< HEAD
       - name: Run backend lint
         run: npm run lint
       - name: Run backend tests
-=======
-      - name: npm backend tests
->>>>>>> 39f12d73f34bf93cab6dbd0ef288dfbea64ec5c3
         run: npm test
 
   frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
-<<<<<<< HEAD
         working-directory: frontend
-=======
-        working-directory:  ./frontend
->>>>>>> 39f12d73f34bf93cab6dbd0ef288dfbea64ec5c3
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -62,19 +50,14 @@ jobs:
           restore-keys: |
             frontend-node-
 
-      - name: install frontend deps
+      - name: Install frontend deps
         run: npm install
 
-<<<<<<< HEAD
       - name: Run frontend lint
         run: npm run lint
       - name: Build frontend
         run: npm run build
 
-=======
-      - name: npm frontend tests
-        run: npm test
->>>>>>> 39f12d73f34bf93cab6dbd0ef288dfbea64ec5c3
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
