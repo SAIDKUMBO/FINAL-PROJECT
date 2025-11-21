@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: back-end
+        working-directory:  ./backend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: front-end
+        working-directory:  ./frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
