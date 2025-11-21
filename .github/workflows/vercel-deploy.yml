@@ -9,10 +9,10 @@ on:
 
 jobs:
   backend:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: back-end
+        working-directory: backend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,21 +21,23 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: backend-node-${{ hashFiles('back-end/package-lock.json', 'back-end/package.json') }}
+          key: backend-node-${{ hashFiles('backend/package-lock.json', 'backend/package.json') }}
           restore-keys: |
             backend-node-
 
       - name: Install backend deps
         run: npm install
 
-      - name: Run backend lint/tests
-        run: npm run lint && npm test
+      - name: Run backend lint
+        run: npm run lint
+      - name: Run backend tests
+        run: npm test
 
   frontend:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: front-end
+        working-directory: frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,15 +46,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: frontend-node-${{ hashFiles('front-end/package-lock.json', 'front-end/package.json') }}
+          key: frontend-node-${{ hashFiles('frontend/package-lock.json', 'frontend/package.json') }}
           restore-keys: |
             frontend-node-
 
       - name: Install frontend deps
         run: npm install
 
-      - name: Run frontend lint/tests/build
-        run: npm run lint && npm run test && npm run build
+      - name: Run frontend lint
+        run: npm run lint
+      - name: Build frontend
+        run: npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
